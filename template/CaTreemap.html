@@ -1,0 +1,60 @@
+<template id="ca-treemap">
+    <div id="treemap" :option="option" :style="sty"></div>
+</template>
+
+<script>
+    Vue.component("ca-treemap", {
+        template: "#ca-treemap",
+        props: {
+            option: {
+                type: Object,
+                default() {
+                    return {}
+                }
+            },
+            width: {
+                type: Number,
+                default() {
+                    return 600;
+                }
+            },
+            height: {
+                type: Number,
+                default() {
+                    return 600;
+                }
+            }
+        },
+        data() {
+            return {
+                myChart: ""
+            }
+        },
+        methods: {},
+        mounted() {
+            this.myChart = echarts.init(document.getElementById('treemap'))
+            this.myChart.setOption(this.option)
+        },
+        filters: {},
+        computed: {
+            sty() {
+                return {
+                    width: this.width + 'px',
+                    height: this.height + 'px'
+                }
+            }
+        },
+        watch: {
+            option: {
+                deep: true,
+                handler(val, oldVal) {
+                    this.myChart.setOption(this.option, true)
+                }
+            }
+        }
+    })
+</script>
+
+<style>
+
+</style>

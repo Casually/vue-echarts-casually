@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>treemap</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <ca-treemap :option="option" :width="800" :height="800"></ca-treemap>
+    <el-button @click="updateEcharts">更新图表</el-button>
+</div>
+
+
+<template id="ca-treemap">
+    <div id="treemap" :option="option" :style="sty"></div>
+</template>
+
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/moment.js/2.24.0/moment-with-locales.min.js"></script>
+<script src="http://cdn.makalu.cc/js/echarts/echarts.min.js"></script>
+<script>
+    Vue.component("ca-treemap", {
+        template: "#ca-treemap",
+        props: {
+            option: {
+                type: Object,
+                default() {
+                    return {}
+                }
+            },
+            width: {
+                type: Number,
+                default() {
+                    return 600;
+                }
+            },
+            height: {
+                type: Number,
+                default() {
+                    return 600;
+                }
+            }
+        },
+        data() {
+            return {
+                myChart: ""
+            }
+        },
+        methods: {},
+        mounted() {
+            this.myChart = echarts.init(document.getElementById('treemap'))
+            this.myChart.setOption(this.option)
+        },
+        filters: {},
+        computed: {
+            sty() {
+                return {
+                    width: this.width + 'px',
+                    height: this.height + 'px'
+                }
+            }
+        },
+        watch: {
+            option: {
+                deep: true,
+                handler(val, oldVal) {
+                    this.myChart.setOption(this.option, true)
+                }
+            }
+        }
+    })
+
+
+    const app = new Vue({
+        el: "#app",
+        data() {
+            return {
+                option: {
+                    series: [
+                        {
+                            type: 'treemap',
+                            data: [
+                                {
+                                    name: '智慧',            // First tree
+                                    value: 10
+                                },
+                                {
+                                    name: 'nodeB',            // Second tree
+                                    value: 20
+                                },
+                                {
+                                    name: 'nodeB',            // Second tree
+                                    value: 20
+                                },
+                                {
+                                    name: 'nodeB',            // Second tree
+                                    value: 20
+                                },
+                                {
+                                    name: 'nodeB',            // Second tree
+                                    value: 20
+                                },
+                                {
+                                    name: 'nodeB',            // Second tree
+                                    value: 20
+                                },
+                                {
+                                    name: 'nodeB',            // Second tree
+                                    value: 20
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        methods: {
+            updateEcharts: async function () {
+                this.option.series[0].data.push({
+                    name: '中湖公园1号点位',            // First tree
+                    value: 100
+                },)
+            }
+        },
+        mounted() {
+        },
+        filters: {},
+        computed: {}
+    })
+</script>

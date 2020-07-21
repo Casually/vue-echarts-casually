@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>casually-vue-echarts</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+
+<div id="app">
+    <ca-treemap :option="option" :width="800" :height="800"></ca-treemap>
+    <el-button @click="updateEcharts(0)">改变1号点位数据</el-button>
+    <el-button @click="updateEcharts(1)">改变2号点位数据</el-button>
+    <el-button @click="updateEcharts(2)">改变3号点位数据</el-button>
+</div>
+
+<div id="template">
+
+</div>
+
+</body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/moment.js/2.24.0/moment-with-locales.min.js"></script>
+<script src="http://cdn.makalu.cc/js/echarts/echarts.min.js"></script>
+
+
+<script>
+
+    //通过jQuery引入组件页面
+    $(document).ready(function () {
+        $('#template').load('template/CaTreemap.html');
+    })
+
+    //延迟加载，保证插件引入初始化后再进行当前页面初始化
+    setTimeout(init, 200)
+
+    function init() {
+        const app = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    option: {
+                        series: [
+                            {
+                                type: 'treemap',
+                                data: [
+                                    {
+                                        name: '中湖公园',            // First tree
+                                        children:[
+                                            {
+                                                name: "1号点位",
+                                                value: 100,
+                                                label:{
+                                                    color: "#000000",
+                                                    formatter: params => {
+                                                        return "当前人数：" + params.data.value + "较以往人流量过大，请注意限流"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                name: "2号点位",
+                                                value: 20,
+                                                label:{
+                                                    color: "#000000",
+                                                }
+                                            },
+                                            {
+                                                name: "3号点位",
+                                                value: 40,
+                                                label:{
+                                                    color: "#000000",
+                                                }
+                                            },
+                                            {
+                                                name: "4号点位",
+                                                value: 60,
+                                                label:{
+                                                    color: "#000000",
+                                                }
+                                            },
+                                            {
+                                                name: "5号点位",
+                                                value: 80,
+                                                label:{
+                                                    color: "#000000",
+                                                }
+                                            }
+                                        ],
+                                        color:["#D8F800","#A8BA2F","#8DA100","#E3FC3F","#EAFC71"],
+                                        upperLabel:{
+                                            show:true,
+                                            color: "#000000"
+                                        }
+                                    },
+                                    {
+                                        name: '星河公园',            // Second tree
+                                        children:[
+                                            {
+                                                name: "1号点位",
+                                                value: 10
+                                            },
+                                            {
+                                                name: "2号点位",
+                                                value: 10
+                                            },
+                                            {
+                                                name: "3号点位",
+                                                value: 10
+                                            }
+                                        ],
+                                        upperLabel:{
+                                            show:true,
+                                            color: "#000000"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            methods: {
+                updateEcharts(code) {
+                    this.option.series[0].data[0].children[code].value = 300
+                }
+            },
+            mounted() {
+            },
+            filters: {},
+            computed: {}
+        })
+    }
+
+
+</script>
